@@ -1,0 +1,71 @@
+name: Bug report
+description: Report reproducible incorrect or unsafe Pivot behavior
+title: "bug: "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: >-
+        Do not report exploitable vulnerabilities here. Follow SECURITY.md for
+        private reporting and redact secrets or unrelated machine information.
+  - type: input
+    id: pivot-version
+    attributes:
+      label: Pivot version
+      description: Paste `pivot version` output or the source revision.
+      placeholder: pivot dev, commit ...
+    validations:
+      required: true
+  - type: input
+    id: os
+    attributes:
+      label: Operating system
+      description: Include distribution and architecture.
+      placeholder: Ubuntu 24.04, linux/amd64
+    validations:
+      required: true
+  - type: input
+    id: go-version
+    attributes:
+      label: Go version when built from source
+      description: Paste `go version`, or write "not built from source".
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: What should have happened?
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+      description: What happened, including the final observed state?
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction steps
+      description: Provide the smallest repeatable sequence with sensitive values removed.
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant logs
+      description: Paste only relevant, redacted output.
+      render: shell
+  - type: dropdown
+    id: unexpected-modification
+    attributes:
+      label: Were containers or processes modified unexpectedly?
+      options:
+        - "No"
+        - "Yes — managed resources"
+        - "Yes — possibly unmanaged resources"
+        - "Unknown"
+    validations:
+      required: true

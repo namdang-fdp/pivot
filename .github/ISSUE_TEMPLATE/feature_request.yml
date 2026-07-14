@@ -1,0 +1,51 @@
+name: Feature request
+description: Propose a focused improvement grounded in a Pivot product pillar
+title: "feat: "
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: User problem
+      description: Describe the developer problem without starting from a solution.
+    validations:
+      required: true
+  - type: textarea
+    id: workaround
+    attributes:
+      label: Current workaround
+      description: How do you handle this today, and where does it fail?
+    validations:
+      required: true
+  - type: dropdown
+    id: pillar
+    attributes:
+      label: Pivot pillar
+      description: Which permanent product pillar does this primarily support?
+      options:
+        - Machine awareness
+        - Project lifecycle
+        - Safe context transition
+    validations:
+      required: true
+  - type: textarea
+    id: behavior
+    attributes:
+      label: Proposed behavior
+      description: Describe observable behavior and failure handling.
+    validations:
+      required: true
+  - type: textarea
+    id: safety
+    attributes:
+      label: Safety considerations
+      description: Discuss ownership, destructive actions, data, and unmanaged resources.
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope impact
+      description: Identify roadmap slice, architecture, dependencies, or exclusions affected.
+    validations:
+      required: true

@@ -1,0 +1,29 @@
+# Go build and test output
+/pivot
+*.test
+*.out
+coverage*.txt
+coverage*.html
+/dist/
+
+# Editors and IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Operating systems
+.DS_Store
+Thumbs.db
+
+# Local and temporary files
+.env
+.env.*
+!.env.example
+tmp/
+temp/
+*.tmp
+
+# Future local Pivot overrides
+.pivot.local.yaml
