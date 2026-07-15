@@ -46,10 +46,12 @@ read `$HOME`, parse YAML, or print to the terminal.
 
 ### Ports and adapters
 
-Ports are introduced with real use cases, not in anticipation of them. Adapters
-will eventually cover Docker Compose, Process Compose, Linux inspection, atomic
-JSON state, strict YAML configuration, and workspace integrations. External
-process and filesystem effects remain at this boundary.
+Ports are introduced with real use cases, not in anticipation of them. Slice 1
+adapters implement strict YAML manifests, the locked XDG YAML project registry,
+read-only command inspection, canonical filesystem checks, and Linux TCP port
+inspection. Later adapters may cover Docker Compose lifecycle, Process Compose,
+atomic JSON runtime state, and workspace integrations. External process and
+filesystem effects remain at this boundary.
 
 Diagnostic logging will use the standard `log/slog` package. The core should
 emit structured results or events; presentation and configured observers decide

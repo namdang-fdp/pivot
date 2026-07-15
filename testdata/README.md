@@ -1,5 +1,6 @@
 # Test data
 
-Shared fixtures belong here when future slices introduce configuration, state,
-or runtime reconciliation. Fixtures must contain no credentials, host-specific
-paths, or real resource identifiers. Slice 0 requires no shared fixtures.
+Shared fixtures belong here only when generated temporary fixtures would obscure
+a test's intent. Slice 1 tests generate manifests and registries in temporary
+directories to keep path and concurrency cases explicit. Any future fixture must
+contain no credentials, host-specific paths, or real resource identifiers.

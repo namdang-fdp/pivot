@@ -1,6 +1,7 @@
 # Integration tests
 
-This directory will contain Linux integration tests that exercise real adapter
-boundaries in isolated environments. Slice 0 has no runtime adapters to test;
-the minimal CLI is covered by unit tests. Future tests must prove ownership and
-data-preservation behavior before they invoke destructive operations.
+This directory contains isolated, end-to-end CLI tests. Slice 1 tests create
+temporary project roots and set `XDG_CONFIG_HOME` to a temporary directory, so
+they never modify the developer's real Pivot registry. No live development
+runtime is invoked. Future lifecycle integration tests must prove ownership and
+data preservation before they invoke any destructive-capable adapter.

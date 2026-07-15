@@ -2,15 +2,41 @@
 package cli
 
 import (
+	"github.com/namdang-fdp/pivot/internal/adapters"
+	"github.com/namdang-fdp/pivot/internal/application"
 	"github.com/spf13/cobra"
 )
 
 // NewRootCommand constructs an isolated Pivot command tree.
 func NewRootCommand() *cobra.Command {
+	manifests := adapters.NewYAMLManifestRepository()
+	registry := adapters.NewYAMLProjectRegistry()
+	files := adapters.NewHostFilesystem()
+
+	return newRootCommand(
+		application.NewInitProjectService(manifests, files),
+		application.NewAddProjectService(manifests, registry, files),
+		application.NewListProjectsService(registry, files),
+		application.NewDoctorProjectService(
+			manifests,
+			registry,
+			files,
+			adapters.NewHostCommandInspector(),
+			adapters.NewLinuxPortInspector(),
+		),
+	)
+}
+
+func newRootCommand(
+	initProjects initProjectUseCase,
+	addProjects addProjectUseCase,
+	listProjects listProjectsUseCase,
+	doctorProjects doctorProjectUseCase,
+) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:           "pivot",
 		Short:         "Safely orchestrate local project contexts",
-		Long:          "Pivot safely orchestrates complete local development contexts.\n\nSwitch projects, keep your flow.",
+		Long:          pivotBanner + "\n\n" + pivotTagline + "\n\nPivot safely orchestrates complete local development contexts.",
 		SilenceErrors: true,
 		SilenceUsage:  true,
 		CompletionOptions: cobra.CompletionOptions{
@@ -22,6 +48,12 @@ func NewRootCommand() *cobra.Command {
 		},
 	}
 
-	cmd.AddCommand(newVersionCommand())
+	cmd.AddCommand(
+		newVersionCommand(),
+		newInitCommand(initProjects),
+		newAddCommand(addProjects),
+		newListCommand(listProjects),
+		newDoctorCommand(doctorProjects),
+	)
 	return cmd
 }

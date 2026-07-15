@@ -68,3 +68,15 @@ If the answer is no, it probably does not belong in Pivot's current scope.
 - Do not commit generated binaries or release archives.
 - Report assumptions, unavailable checks, incomplete work, and observed failures
   honestly. Never claim an unrun check succeeded.
+
+## Slice 1 invariants
+
+- Keep `.pivot.yaml` decoding strict with known-field and duplicate-key rejection.
+- Treat every manifest and registry path as untrusted; reject lexical traversal
+  and existing symlink escapes from the canonical project root.
+- Keep registry duplicate policy in application services and lock/atomic-write
+  mechanics in the adapter.
+- Doctor is read-only. It may report unmanaged occupied ports but must never
+  repair, install, start, stop, signal, or rewrite resources.
+- Automated tests must isolate the global registry with a temporary
+  `XDG_CONFIG_HOME`; never touch a developer's real Pivot registry.
