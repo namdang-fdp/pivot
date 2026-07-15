@@ -1,0 +1,123 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/namdang-fdp/pivot/schemas/pivot.schema.json",
+  "title": "Pivot project manifest",
+  "description": "Schema version 1 for a Pivot project manifest.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "version",
+    "project",
+    "requirements",
+    "ports"
+  ],
+  "properties": {
+    "version": {
+      "type": "integer",
+      "const": 1
+    },
+    "project": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+        },
+        "name": {
+          "type": "string",
+          "pattern": ".*\\S.*"
+        }
+      }
+    },
+    "requirements": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "commands",
+        "files"
+      ],
+      "properties": {
+        "commands": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": ".*\\S.*"
+          }
+        },
+        "files": {
+          "$ref": "#/$defs/relativePaths"
+        }
+      }
+    },
+    "compose": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "files": {
+          "$ref": "#/$defs/relativePaths"
+        },
+        "envFiles": {
+          "$ref": "#/$defs/relativePaths"
+        }
+      }
+    },
+    "ports": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "port",
+          "protocol",
+          "required"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "pattern": ".*\\S.*"
+          },
+          "port": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 65535
+          },
+          "protocol": {
+            "const": "tcp"
+          },
+          "required": {
+            "type": "boolean"
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "relativePaths": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": ".*\\S.*",
+        "allOf": [
+          {
+            "not": {
+              "pattern": "^/"
+            }
+          },
+          {
+            "not": {
+              "pattern": "(^|/)\\.\\.(/|$)"
+            }
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,22 +1,38 @@
 # Pivot v0.1 specification
 
-This document defines the intended v0.1 behavior. Only the Slice 0 help and
-`version` interface currently exist; the remainder is a contract for later
-vertical slices, not a claim of implementation.
+This document defines the intended v0.1 behavior. Slice 1 currently implements
+help, version reporting, strict manifest creation, project registration/listing,
+and read-only doctor diagnostics. Lifecycle and transition requirements remain a
+contract for later vertical slices, not a claim of implementation.
 
-## Planned commands
+## Implemented commands
 
 - `pivot init` creates explicit project configuration scaffolding.
 - `pivot add` adds an explicitly selected project to the local registry.
 - `pivot list` lists registered projects without starting them.
 - `pivot doctor` validates configuration, tools, and conflicts without mutation.
+- `pivot version` reports build metadata.
+
+## Planned commands
+
 - `pivot up` converges one project toward ready.
 - `pivot down` stops only resources owned by one project and preserves data.
 - `pivot status` reconciles recorded and observed machine state.
 - `pivot switch` transactionally changes the active project.
 - `pivot resume` restores the explicitly recorded active project on request.
 - `pivot shutdown` stops the active project's owned resources.
-- `pivot version` reports build metadata.
+
+The planned commands above are not available in Slice 1.
+
+## Slice 1 persistence and manifest contract
+
+Each project uses strict schema-version-1 YAML at `<project-root>/.pivot.yaml`.
+Unknown fields, duplicate mapping keys, invalid project IDs, unsafe paths,
+unsupported protocols, and unsupported versions fail deterministically. The
+global project registry is versioned YAML at
+`$XDG_CONFIG_HOME/pivot/projects.yaml`, falling back to
+`~/.config/pivot/projects.yaml`. Registry updates use an inter-process lock and
+atomic replacement. Slice 1 creates no runtime state or active-project record.
 
 ## State model
 

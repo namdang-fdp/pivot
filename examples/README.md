@@ -1,6 +1,7 @@
 # Examples
 
-Examples will accompany working Pivot features. Slice 0 intentionally provides
-no project manifest examples because the manifest format is not implemented or
-stable. Examples must remain executable, version-aware, and must never imply
-that planned commands are already available.
+The complete schema-version-1 example lives in the
+[manifest reference](../docs/manifest-reference.md) so the contract and example
+are reviewed together. Standalone examples must pass the strict decoder, remain
+version-aware, contain no machine-specific paths or secrets, and never imply
+that planned lifecycle commands are already available.

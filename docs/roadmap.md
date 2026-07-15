@@ -16,6 +16,9 @@ real projects.
 
 ## Slice 1 — Registry, manifest, and doctor
 
+**Implementation status:** Implemented. Maintainer dogfooding on real projects
+remains required before the slice is considered complete for release.
+
 - **User value:** explicitly register projects, validate strict manifests, list
   known projects, and diagnose requirements without starting anything.
 - **Main commands:** `init`, `add`, `list`, `doctor`.
