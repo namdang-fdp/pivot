@@ -34,6 +34,7 @@ func TestVersion(t *testing.T) {
 	if stdout != want {
 		t.Fatalf("stdout = %q, want %q", stdout, want)
 	}
+	assertNoPivotBanner(t, stdout)
 }
 
 func TestVersionJSON(t *testing.T) {
@@ -53,6 +54,7 @@ func TestVersionJSON(t *testing.T) {
 	if got != want {
 		t.Fatalf("version JSON = %#v, want %#v", got, want)
 	}
+	assertNoPivotBanner(t, stdout)
 }
 
 func TestRootShowsHelp(t *testing.T) {

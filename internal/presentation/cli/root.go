@@ -36,7 +36,7 @@ func newRootCommand(
 	cmd := &cobra.Command{
 		Use:           "pivot",
 		Short:         "Safely orchestrate local project contexts",
-		Long:          "Pivot safely orchestrates complete local development contexts.\n\nSwitch projects, keep your flow.",
+		Long:          pivotBanner + "\n\n" + pivotTagline + "\n\nPivot safely orchestrates complete local development contexts.",
 		SilenceErrors: true,
 		SilenceUsage:  true,
 		CompletionOptions: cobra.CompletionOptions{

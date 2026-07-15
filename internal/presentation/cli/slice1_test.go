@@ -23,6 +23,7 @@ func TestSlice1CLIInitAddListAndDoctor(t *testing.T) {
 	if !strings.Contains(stdout, "Created manifest:") || !strings.Contains(stdout, "Next: pivot add ") {
 		t.Fatalf("init output = %q", stdout)
 	}
+	assertNoPivotBanner(t, stdout)
 	if _, err := os.Stat(filepath.Join(project, ".pivot.yaml")); err != nil {
 		t.Fatalf("generated manifest: %v", err)
 	}
@@ -31,6 +32,7 @@ func TestSlice1CLIInitAddListAndDoctor(t *testing.T) {
 	if err != nil || stderr != "" || !strings.Contains(stdout, "Registered project sample-project") {
 		t.Fatalf("add stdout=%q stderr=%q err=%v", stdout, stderr, err)
 	}
+	assertNoPivotBanner(t, stdout)
 	stdout, _, err = execute(t, "add", project)
 	if err != nil || !strings.Contains(stdout, "already registered") {
 		t.Fatalf("idempotent add stdout=%q err=%v", stdout, err)
@@ -45,6 +47,7 @@ func TestSlice1CLIInitAddListAndDoctor(t *testing.T) {
 			t.Errorf("list output lacks %q:\n%s", value, stdout)
 		}
 	}
+	assertNoPivotBanner(t, stdout)
 
 	stdout, stderr, err = execute(t, "list", "--json")
 	if err != nil || stderr != "" {
@@ -57,11 +60,13 @@ func TestSlice1CLIInitAddListAndDoctor(t *testing.T) {
 	if len(listed.Projects) != 1 || listed.Projects[0].ID != "sample-project" || !listed.Projects[0].Available {
 		t.Fatalf("listed projects = %#v", listed)
 	}
+	assertNoPivotBanner(t, stdout)
 
 	stdout, stderr, err = execute(t, "doctor", "sample-project")
 	if err != nil || stderr != "" || !strings.Contains(stdout, "Summary:") || !strings.Contains(stdout, "0 failed") {
 		t.Fatalf("doctor stdout=%q stderr=%q err=%v", stdout, stderr, err)
 	}
+	assertNoPivotBanner(t, stdout)
 	stdout, stderr, err = execute(t, "doctor", "sample-project", "--json")
 	if err != nil || stderr != "" {
 		t.Fatalf("doctor JSON stdout=%q stderr=%q err=%v", stdout, stderr, err)
@@ -73,6 +78,7 @@ func TestSlice1CLIInitAddListAndDoctor(t *testing.T) {
 	if doctor.Project.ID != "sample-project" || doctor.Status != "pass" || doctor.Summary.Failed != 0 {
 		t.Fatalf("doctor result = %#v", doctor)
 	}
+	assertNoPivotBanner(t, stdout)
 }
 
 func TestListEmptyRegistry(t *testing.T) {
@@ -131,9 +137,11 @@ func TestSlice1CLIInvalidArguments(t *testing.T) {
 		{"list", "unexpected"},
 		{"doctor", "one", "two"},
 	} {
-		if _, _, err := execute(t, args...); err == nil {
+		stdout, _, err := execute(t, args...)
+		if err == nil {
 			t.Errorf("execute(%v) error = nil", args)
 		}
+		assertNoPivotBanner(t, stdout)
 	}
 }
 
