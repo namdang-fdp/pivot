@@ -78,8 +78,5 @@ func (s *InitProjectService) InitProject(ctx context.Context, request InitProjec
 	if err != nil {
 		return InitProjectResult{}, err
 	}
-	if _, err := s.manifests.Load(ctx, canonical); err != nil {
-		return InitProjectResult{}, fmt.Errorf("verify created manifest: %w", err)
-	}
 	return InitProjectResult{ManifestPath: manifestPath, ProjectPath: canonical}, nil
 }
