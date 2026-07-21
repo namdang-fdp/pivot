@@ -28,7 +28,7 @@ func newInitCommand(service initProjectUseCase) *cobra.Command {
 			if err != nil {
 				return err
 			}
-			_, err = fmt.Fprintf(cmd.OutOrStdout(), "Created manifest: %s\nNext: pivot add %s\n", result.ManifestPath, result.ProjectPath)
+			_, err = fmt.Fprintf(cmd.OutOrStdout(), "Created manifest: %s\nNext: pivot add %s\n", result.ManifestPath, shellQuote(result.ProjectPath))
 			return err
 		},
 	}

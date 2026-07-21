@@ -11,7 +11,7 @@ import (
 func TestSlice1CLIInitAddListAndDoctor(t *testing.T) {
 	xdg := t.TempDir()
 	t.Setenv("XDG_CONFIG_HOME", xdg)
-	project := filepath.Join(t.TempDir(), "sample-project")
+	project := filepath.Join(t.TempDir(), "Sample Project")
 	if err := os.Mkdir(project, 0o755); err != nil {
 		t.Fatalf("mkdir project: %v", err)
 	}
@@ -20,8 +20,14 @@ func TestSlice1CLIInitAddListAndDoctor(t *testing.T) {
 	if err != nil || stderr != "" {
 		t.Fatalf("init stdout=%q stderr=%q err=%v", stdout, stderr, err)
 	}
-	if !strings.Contains(stdout, "Created manifest:") || !strings.Contains(stdout, "Next: pivot add ") {
-		t.Fatalf("init output = %q", stdout)
+
+	wantInitOutput := "Created manifest: " +
+		filepath.Join(project, ".pivot.yaml") +
+		"\nNext: pivot add " +
+		shellQuote(project) +
+		"\n"
+	if stdout != wantInitOutput {
+		t.Fatalf("init output = %q, want %q", stdout, wantInitOutput)
 	}
 	assertNoPivotBanner(t, stdout)
 	if _, err := os.Stat(filepath.Join(project, ".pivot.yaml")); err != nil {

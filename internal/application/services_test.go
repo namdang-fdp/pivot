@@ -153,7 +153,8 @@ func TestDoctorProjectPassesCompleteInspection(t *testing.T) {
 	root := createProject(t, manifestRepository, "centeros", "CenterOS", manifest)
 	writeDoctorFiles(t, root)
 	registry := &memoryRegistry{projects: []core.RegisteredProject{{ID: "centeros", Name: "CenterOS", Path: root}}}
-	service := NewDoctorProjectService(manifestRepository, registry, adapters.NewHostFilesystem(),
+	service := NewDoctorProjectService(
+		manifestRepository, registry, adapters.NewHostFilesystem(),
 		fakeCommands{present: map[string]bool{"mise": true, "docker": true}},
 		fakePortInspector{observations: map[int]ports.PortObservation{5432: {Available: true}}, errors: map[int]error{}},
 	)
@@ -174,7 +175,8 @@ func TestDoctorProjectReportsMissingRequirementsComposeAndOccupiedPort(t *testin
 	manifestRepository := adapters.NewYAMLManifestRepository()
 	root := createProject(t, manifestRepository, "centeros", "CenterOS", doctorManifest())
 	registry := &memoryRegistry{projects: []core.RegisteredProject{{ID: "centeros", Name: "CenterOS", Path: root}}}
-	service := NewDoctorProjectService(manifestRepository, registry, adapters.NewHostFilesystem(),
+	service := NewDoctorProjectService(
+		manifestRepository, registry, adapters.NewHostFilesystem(),
 		fakeCommands{present: map[string]bool{}},
 		fakePortInspector{observations: map[int]ports.PortObservation{5432: {Available: false}}, errors: map[int]error{}},
 	)
@@ -200,7 +202,8 @@ func TestDoctorProjectReportsDockerComposeCheckFailure(t *testing.T) {
 	root := createProject(t, manifestRepository, "centeros", "CenterOS", doctorManifest())
 	writeDoctorFiles(t, root)
 	registry := &memoryRegistry{projects: []core.RegisteredProject{{ID: "centeros", Name: "CenterOS", Path: root}}}
-	service := NewDoctorProjectService(manifestRepository, registry, adapters.NewHostFilesystem(),
+	service := NewDoctorProjectService(
+		manifestRepository, registry, adapters.NewHostFilesystem(),
 		fakeCommands{present: map[string]bool{"mise": true, "docker": true}, checkErr: errors.New("compose plugin unavailable")},
 		fakePortInspector{observations: map[int]ports.PortObservation{5432: {Available: true}}, errors: map[int]error{}},
 	)
