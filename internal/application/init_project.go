@@ -55,11 +55,22 @@ func (s *InitProjectService) InitProject(ctx context.Context, request InitProjec
 	// input an ID through pivot init --id "id"
 	if request.ID == "" {
 		id, err = core.SlugifyProjectID(base)
+		if err != nil {
+			return InitProjectResult{}, fmt.Errorf(
+				"derive project ID from directory name %q: %w; use --id to provide one explicitly",
+				base,
+				err,
+			)
+		}
 	} else {
 		id, err = core.ParseProjectID(request.ID)
-	}
-	if err != nil {
-		return InitProjectResult{}, fmt.Errorf("derive project ID from %q: %w; use --id to provide one explicitly", base, err)
+		if err != nil {
+			return InitProjectResult{}, fmt.Errorf(
+				"invalid explicit project ID %q: %w",
+				request.ID,
+				err,
+			)
+		}
 	}
 	name := request.Name
 	if name == "" {

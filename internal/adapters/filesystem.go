@@ -16,6 +16,7 @@ type HostFilesystem struct{}
 func NewHostFilesystem() *HostFilesystem { return &HostFilesystem{} }
 
 // CurrentDirectory returns the process working directory.
+// each of process may have different cwd
 func (*HostFilesystem) CurrentDirectory() (string, error) {
 	value, err := os.Getwd()
 	if err != nil {
